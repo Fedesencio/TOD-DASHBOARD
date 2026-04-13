@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0053)file:///C:/Users/federico.sencio/Downloads/index.html -->
-<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="es">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TOD · Dashboard Financiero Ejecutivo</title>
-<script src="./index_files/chart.umd.js.download"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -103,12 +103,12 @@
   </div>
 
   <div class="tabs">
-    <button class="tab active" onclick="showTab(&#39;resumen&#39;,this)">Resumen</button>
-    <button class="tab" onclick="showTab(&#39;pnl&#39;,this)">P&amp;L</button>
-    <button class="tab" onclick="showTab(&#39;fcff&#39;,this)">FCFF</button>
-    <button class="tab" onclick="showTab(&#39;gastos&#39;,this)">Gastos</button>
-    <button class="tab" onclick="showTab(&#39;medicas&#39;,this)">Médicas</button>
-    <button class="tab" onclick="showTab(&#39;tratamientos&#39;,this)">Tratamientos</button>
+    <button class="tab active" onclick="showTab('resumen',this)">Resumen</button>
+    <button class="tab" onclick="showTab('pnl',this)">P&amp;L</button>
+    <button class="tab" onclick="showTab('fcff',this)">FCFF</button>
+    <button class="tab" onclick="showTab('gastos',this)">Gastos</button>
+    <button class="tab" onclick="showTab('medicas',this)">Médicas</button>
+    <button class="tab" onclick="showTab('tratamientos',this)">Tratamientos</button>
   </div>
 
   <!-- RESUMEN -->
@@ -128,16 +128,16 @@
       <span><span class="dot" style="background:var(--purple)"></span>Margen bruto</span>
       <span><span class="dot" style="background:var(--gold)"></span>EBITDA</span>
     </div>
-    <div class="chart-box"><div style="position:relative;height:280px;"><canvas id="c1" role="img" aria-label="Ventas Margen Bruto y EBITDA por mes" width="1503" height="350" style="display: block; box-sizing: border-box; height: 280px; width: 1202px;"></canvas></div></div>
+    <div class="chart-box"><div style="position:relative;height:280px;"><canvas id="c1" role="img" aria-label="Ventas Margen Bruto y EBITDA por mes"></canvas></div></div>
 
     <div class="chart-grid-2">
       <div>
         <div class="section-title">FCFF acumulativo</div>
-        <div class="chart-box"><div style="position:relative;height:220px;"><canvas id="c2" role="img" aria-label="FCFF acumulativo" width="718" height="275" style="display: block; box-sizing: border-box; height: 220px; width: 574px;"></canvas></div></div>
+        <div class="chart-box"><div style="position:relative;height:220px;"><canvas id="c2" role="img" aria-label="FCFF acumulativo"></canvas></div></div>
       </div>
       <div>
         <div class="section-title">Ingreso neto por mes</div>
-        <div class="chart-box"><div style="position:relative;height:220px;"><canvas id="c3r" role="img" aria-label="Ingreso neto por mes" width="718" height="275" style="display: block; box-sizing: border-box; height: 220px; width: 574px;"></canvas></div></div>
+        <div class="chart-box"><div style="position:relative;height:220px;"><canvas id="c3r" role="img" aria-label="Ingreso neto por mes"></canvas></div></div>
       </div>
     </div>
   </div>
@@ -148,17 +148,17 @@
     <div class="scroll-x" style="margin-bottom:20px;">
       <table class="tbl">
         <thead><tr><th>Concepto</th><th>Nov-25</th><th>Dic-25</th><th>Ene-26</th><th>Feb-26</th><th>Mar-26</th><th>Abr-26</th></tr></thead>
-        <tbody id="pnl-body"><tr><td>Ventas</td><td class="">$0</td><td class="">$225.8M</td><td class="">$89.2M</td><td class="">$102.2M</td><td class="">$169.4M</td><td class="">$53.5M</td></tr><tr><td>Egreso médicas</td><td class="">$0</td><td class="neg">-$5.3M</td><td class="neg">-$5.8M</td><td class="neg">-$5.7M</td><td class="neg">-$7.2M</td><td class="neg">-$2.3M</td></tr><tr><td>Mercadería</td><td class="neg">-$2.6M</td><td class="neg">-$1.0M</td><td class="neg">-$936K</td><td class="neg">-$9.1M</td><td class="neg">-$2.1M</td><td class="">$0</td></tr><tr class="subtotal"><td>MARGEN BRUTO</td><td class="neg">-$2.6M</td><td class="">$219.5M</td><td class="">$82.5M</td><td class="">$87.4M</td><td class="">$160.0M</td><td class="">$51.2M</td></tr><tr><td>Gastos Administrativos</td><td class="neg">-$8.2M</td><td class="neg">-$13.6M</td><td class="neg">-$9.4M</td><td class="neg">-$10.7M</td><td class="neg">-$15.0M</td><td class="neg">-$11.0M</td></tr><tr><td>Gastos Marketing</td><td class="neg">-$250K</td><td class="">$0</td><td class="neg">-$250K</td><td class="neg">-$250K</td><td class="">$0</td><td class="">$0</td></tr><tr><td>Gastos Comercialización</td><td class="neg">-$7.2M</td><td class="neg">-$10.1M</td><td class="neg">-$7.3M</td><td class="neg">-$4.1M</td><td class="neg">-$8.2M</td><td class="neg">-$500K</td></tr><tr class="subtotal"><td>EBITDA</td><td class="neg">-$18.2M</td><td class="">$195.8M</td><td class="">$65.6M</td><td class="">$72.3M</td><td class="">$136.9M</td><td class="">$39.8M</td></tr><tr><td>Impuestos</td><td class="neg">-$3.8M</td><td class="neg">-$2.0M</td><td class="neg">-$4.2M</td><td class="neg">-$4.9M</td><td class="neg">-$1.3M</td><td class="neg">-$2.8M</td></tr><tr class="highlight"><td>INGRESO NETO</td><td class="neg">-$22.0M</td><td class="">$193.8M</td><td class="">$61.4M</td><td class="">$67.4M</td><td class="">$135.5M</td><td class="">$37.0M</td></tr></tbody>
+        <tbody id="pnl-body"></tbody>
       </table>
     </div>
     <div class="chart-grid-2">
       <div>
         <div class="section-title">Ingreso neto por mes</div>
-        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c3" role="img" aria-label="Ingreso neto" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
+        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c3" role="img" aria-label="Ingreso neto"></canvas></div></div>
       </div>
       <div>
         <div class="section-title">Ventas vs EBITDA</div>
-        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c1b" role="img" aria-label="Ventas vs EBITDA" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
+        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c1b" role="img" aria-label="Ventas vs EBITDA"></canvas></div></div>
       </div>
     </div>
   </div>
@@ -169,7 +169,7 @@
     <div class="scroll-x" style="margin-bottom:20px;">
       <table class="tbl">
         <thead><tr><th>Concepto</th><th>Nov-25</th><th>Dic-25</th><th>Ene-26</th><th>Feb-26</th><th>Mar-26</th><th>Abr-26</th></tr></thead>
-        <tbody id="fcff-body"><tr><td>Ingreso Operativo</td><td class="neg">-$22.0M</td><td class="">$193.8M</td><td class="">$61.4M</td><td class="">$67.4M</td><td class="">$135.5M</td><td class="">$37.0M</td></tr><tr><td>CAPEX</td><td class="">$0</td><td class="">$0</td><td class="">$0</td><td class="">$0</td><td class="">$0</td><td class="">$0</td></tr><tr><td>Capital de Trabajo</td><td class="">$0</td><td class="">$0</td><td class="">$0</td><td class="">$0</td><td class="">$0</td><td class="">$0</td></tr><tr class="subtotal"><td>FCFF</td><td class="neg">-$22.0M</td><td class="">$193.8M</td><td class="">$61.4M</td><td class="">$67.4M</td><td class="">$135.5M</td><td class="">$37.0M</td></tr><tr class="highlight"><td>FCFF Acumulativo</td><td class="neg">-$22.0M</td><td class="">$171.8M</td><td class="">$233.2M</td><td class="">$300.6M</td><td class="">$436.1M</td><td class="">$473.1M</td></tr></tbody>
+        <tbody id="fcff-body"></tbody>
       </table>
     </div>
     <div class="section-title">FCFF mensual vs acumulativo</div>
@@ -177,7 +177,7 @@
       <span><span class="dot" style="background:var(--gold)"></span>FCFF Acumulativo</span>
       <span><span class="dot" style="background:var(--teal)"></span>FCFF Mensual</span>
     </div>
-    <div class="chart-box"><div style="position:relative;height:280px;"><canvas id="c4" role="img" aria-label="FCFF mensual y acumulativo" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
+    <div class="chart-box"><div style="position:relative;height:280px;"><canvas id="c4" role="img" aria-label="FCFF mensual y acumulativo"></canvas></div></div>
   </div>
 
   <!-- GASTOS -->
@@ -186,14 +186,14 @@
     <div class="scroll-x" style="margin-bottom:20px;">
       <table class="tbl">
         <thead><tr><th>Concepto</th><th>Nov-25</th><th>Dic-25</th><th>Ene-26</th><th>Feb-26</th><th>Mar-26</th><th>Abr-26</th></tr></thead>
-        <tbody id="pond-body"><tr><td>Salarios</td><td>28.02%</td><td>39.04%</td><td>29.68%</td><td>30.65%</td><td>31.94%</td><td>29.21%</td></tr><tr><td>Gastos Admin</td><td>9.02%</td><td>11.86%</td><td>12.86%</td><td>6.16%</td><td>24.41%</td><td>47.65%</td></tr><tr><td>Gastos Marketing</td><td>1.13%</td><td>0.00%</td><td>1.14%</td><td>0.86%</td><td>0.00%</td><td>0.00%</td></tr><tr><td>Gastos Comerc.</td><td>5.82%</td><td>3.32%</td><td>13.57%</td><td>5.52%</td><td>30.62%</td><td>3.50%</td></tr><tr><td>Impuestos</td><td>17.34%</td><td>7.51%</td><td>19.03%</td><td>16.98%</td><td>5.06%</td><td>19.64%</td></tr><tr><td>Servicios</td><td>26.72%</td><td>34.50%</td><td>19.47%</td><td>8.58%</td><td>0.00%</td><td>0.00%</td></tr><tr><td>Mercadería</td><td>11.96%</td><td>3.77%</td><td>4.26%</td><td>31.26%</td><td>7.97%</td><td>0.00%</td></tr><tr class="subtotal"><td>Total Gasto</td><td>$22.0M</td><td>$26.7M</td><td>$22.0M</td><td>$29.1M</td><td>$26.7M</td><td>$14.3M</td></tr></tbody>
+        <tbody id="pond-body"></tbody>
       </table>
     </div>
     <div class="section-title">Composición del gasto — 100% apilado</div>
-    <div class="legend" id="pond-legend"><span><span class="dot" style="background:#00B4D8"></span>Salarios</span><span><span class="dot" style="background:#7C3AED"></span>Gastos Admin</span><span><span class="dot" style="background:#E8B86D"></span>Gastos Marketing</span><span><span class="dot" style="background:#27AE60"></span>Gastos Comerc.</span><span><span class="dot" style="background:#E74C3C"></span>Impuestos</span><span><span class="dot" style="background:#94A3B8"></span>Servicios</span><span><span class="dot" style="background:#F97316"></span>Mercadería</span></div>
-    <div class="chart-box"><div style="position:relative;height:300px;"><canvas id="c5" role="img" aria-label="Ponderacion de gastos apilado" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
+    <div class="legend" id="pond-legend"></div>
+    <div class="chart-box"><div style="position:relative;height:300px;"><canvas id="c5" role="img" aria-label="Ponderacion de gastos apilado"></canvas></div></div>
     <div class="section-title">Total gasto absoluto por mes (ARS)</div>
-    <div class="chart-box"><div style="position:relative;height:220px;"><canvas id="c6" role="img" aria-label="Total gasto por mes" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
+    <div class="chart-box"><div style="position:relative;height:220px;"><canvas id="c6" role="img" aria-label="Total gasto por mes"></canvas></div></div>
   </div>
 
   <!-- MÉDICAS -->
@@ -202,17 +202,17 @@
     <div class="scroll-x" style="margin-bottom:20px;">
       <table class="tbl">
         <thead><tr><th>Médica</th><th>Dic-25</th><th>Ene-26</th><th>Feb-26</th><th>Mar-26</th><th>Abr-26</th><th>Total</th></tr></thead>
-        <tbody id="doc-body"><tr><td>Olivia</td><td>$91.9M</td><td>$33.7M</td><td>$25.0M</td><td>$57.7M</td><td>$19.3M</td><td><strong>$227.5M</strong></td></tr><tr><td>Lucia</td><td>$87.4M</td><td>$30.4M</td><td>$38.0M</td><td>$64.4M</td><td>$19.5M</td><td><strong>$239.6M</strong></td></tr><tr><td>Florencia</td><td>$44.2M</td><td>$21.7M</td><td>$33.9M</td><td>$37.7M</td><td>$12.3M</td><td><strong>$149.7M</strong></td></tr><tr><td>TOD</td><td>$1.9M</td><td>$3.3M</td><td>$5.4M</td><td>$8.1M</td><td>$2.5M</td><td><strong>$21.2M</strong></td></tr><tr class="subtotal"><td>Total</td><td>$225.3M</td><td>$89.0M</td><td>$102.2M</td><td>$167.9M</td><td>$53.5M</td><td><strong>$638.0M</strong></td></tr></tbody>
+        <tbody id="doc-body"></tbody>
       </table>
     </div>
     <div class="section-title">Facturación apilada por mes</div>
-    <div class="legend" id="doc-legend"><span><span class="dot" style="background:#00B4D8"></span>Olivia</span><span><span class="dot" style="background:#27AE60"></span>Lucia</span><span><span class="dot" style="background:#E8B86D"></span>Florencia</span><span><span class="dot" style="background:#E2E8F0"></span>TOD</span></div>
-    <div class="chart-box"><div style="position:relative;height:280px;"><canvas id="c7" role="img" aria-label="Facturacion por medica apilada" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
+    <div class="legend" id="doc-legend"></div>
+    <div class="chart-box"><div style="position:relative;height:280px;"><canvas id="c7" role="img" aria-label="Facturacion por medica apilada"></canvas></div></div>
     <div class="section-title">Aportes por médica (ARS)</div>
     <div class="scroll-x">
       <table class="tbl">
         <thead><tr><th>Médica</th><th>Dic-25</th><th>Ene-26</th><th>Feb-26</th><th>Mar-26</th><th>Abr-26</th><th>Total</th></tr></thead>
-        <tbody id="ap-body"><tr><td>Florencia</td><td>$6.6M</td><td>$4.7M</td><td>$4.6M</td><td>$5.4M</td><td>$2.9M</td><td><strong>$24.3M</strong></td></tr><tr><td>Lucia</td><td>$4.6M</td><td>$4.7M</td><td>$4.6M</td><td>$6.0M</td><td>$1.9M</td><td><strong>$21.9M</strong></td></tr><tr><td>Olivia</td><td>$2.9M</td><td>$2.5M</td><td>$1.7M</td><td>$3.4M</td><td>$2.1M</td><td><strong>$12.6M</strong></td></tr><tr><td>TOD</td><td>$1.5M</td><td>$2.0M</td><td>$3.3M</td><td>$3.8M</td><td>$1.7M</td><td><strong>$12.4M</strong></td></tr></tbody>
+        <tbody id="ap-body"></tbody>
       </table>
     </div>
   </div>
@@ -227,15 +227,15 @@
     <div class="chart-grid-2">
       <div>
         <div class="section-title">Tratamientos por mes</div>
-        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c9b" role="img" aria-label="Tratamientos por mes" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
+        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c9b" role="img" aria-label="Tratamientos por mes"></canvas></div></div>
       </div>
       <div>
         <div class="section-title">Ticket promedio por mes (ARS)</div>
-        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c9" role="img" aria-label="Ticket promedio por mes" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
+        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c9" role="img" aria-label="Ticket promedio por mes"></canvas></div></div>
       </div>
     </div>
     <div class="section-title">Mix de tratamientos — total ARS (Dic-25 → Abr-26)</div>
-    <div class="chart-box"><div style="position:relative;height:340px;"><canvas id="c8" role="img" aria-label="Mix de tratamientos" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
+    <div class="chart-box"><div style="position:relative;height:340px;"><canvas id="c8" role="img" aria-label="Mix de tratamientos"></canvas></div></div>
   </div>
 
 </div>
@@ -486,6 +486,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 </script>
-
-
-</body></html>
+</body>
+</html>
