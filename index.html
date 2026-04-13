@@ -5,172 +5,247 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TOD · Dashboard Financiero Ejecutivo</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0D0D1A;--surface:#16213E;--surface2:#1E1E3A;--accent:#0F3460;--teal:#00B4D8;--gold:#E8B86D;--green:#27AE60;--red:#E74C3C;--purple:#7C3AED;--gray:#94A3B8;--light:#E2E8F0;--orange:#F97316;--border:rgba(148,163,184,0.15);--text:#E2E8F0;--text-muted:#94A3B8}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;line-height:1.5;min-height:100vh}
-.wrapper{max-width:1280px;margin:0 auto;padding:24px 20px}
-.header{background:var(--accent);border-radius:14px;padding:20px 28px;display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.header h1{font-size:18px;font-weight:600;color:#fff;letter-spacing:.03em}
-.header p{font-size:12px;color:var(--gray);margin-top:3px}
-.badge{background:rgba(0,180,216,.2);color:var(--teal);font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid rgba(0,180,216,.3)}
-.tabs{display:flex;gap:2px;margin-bottom:20px;background:var(--surface);border-radius:10px;padding:4px}
-.tab{flex:1;padding:9px 12px;font-size:12px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text-muted);border-radius:8px;transition:all .15s;text-align:center}
-.tab.active{background:var(--accent);color:var(--teal)}
-.tab:hover:not(.active){color:var(--text);background:var(--surface2)}
-.panel{display:none}.panel.active{display:block}
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px}
-.kpi{background:var(--surface);border-radius:12px;padding:16px 18px;border:1px solid var(--border)}
-.kpi .lbl{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
-.kpi .val{font-size:26px;font-weight:600;line-height:1}
-.kpi .sub{font-size:11px;color:var(--text-muted);margin-top:4px}
-.stitle{font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.09em;margin:22px 0 10px}
-.cbox{background:var(--surface);border-radius:12px;padding:18px;border:1px solid var(--border);margin-bottom:16px;overflow:hidden}
-.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:16px}
-@media(max-width:700px){.grid2{grid-template-columns:1fr}}
-.legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:12px;font-size:11px;color:var(--text-muted)}
-.legend span{display:flex;align-items:center;gap:5px}
-.dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;display:inline-block}
-.scroll-x{overflow-x:auto;border-radius:10px;margin-bottom:16px}
-.tbl{width:100%;border-collapse:collapse;font-size:12px;min-width:600px}
-.tbl th{background:var(--accent);color:#E2E8F0;text-align:right;padding:9px 12px;font-weight:500;font-size:11px;white-space:nowrap}
-.tbl th:first-child{text-align:left;border-radius:8px 0 0 8px}
-.tbl th:last-child{border-radius:0 8px 8px 0}
-.tbl td{padding:7px 12px;text-align:right;border-bottom:1px solid var(--border);color:var(--text);white-space:nowrap}
-.tbl td:first-child{text-align:left;color:var(--text-muted)}
-.tbl tr:last-child td{border-bottom:none}
-.tbl tr.sub td{font-weight:600;background:rgba(15,52,96,.5)}
-.tbl tr.sub td:first-child{color:var(--teal)}
-.tbl tr.hi td{font-weight:600;background:rgba(15,52,96,.8);color:var(--gold)}
-.tbl tr.hi td:first-child{color:var(--gold)}
-.neg{color:var(--red)!important}
-svg.chart{width:100%;overflow:visible}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0D0D1A;
+    --surface: #16213E;
+    --surface2: #1E1E3A;
+    --accent: #0F3460;
+    --teal: #00B4D8;
+    --gold: #E8B86D;
+    --green: #27AE60;
+    --red: #E74C3C;
+    --purple: #7C3AED;
+    --gray: #94A3B8;
+    --light: #E2E8F0;
+    --orange: #F97316;
+    --border: rgba(148,163,184,0.15);
+    --text: #E2E8F0;
+    --text-muted: #94A3B8;
+  }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.5; min-height: 100vh; }
+
+  .wrapper { max-width: 1280px; margin: 0 auto; padding: 24px 20px; }
+
+  /* Header */
+  .header { background: var(--accent); border-radius: 14px; padding: 20px 28px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .header-left h1 { font-size: 18px; font-weight: 600; color: #fff; letter-spacing: 0.03em; }
+  .header-left p { font-size: 12px; color: var(--gray); margin-top: 3px; }
+  .header-badge { background: rgba(0,180,216,0.2); color: var(--teal); font-size: 11px; padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(0,180,216,0.3); }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 2px; margin-bottom: 20px; background: var(--surface); border-radius: 10px; padding: 4px; }
+  .tab { flex: 1; padding: 9px 12px; font-size: 12px; font-weight: 500; cursor: pointer; border: none; background: none; color: var(--text-muted); border-radius: 8px; transition: all 0.15s; text-align: center; }
+  .tab.active { background: var(--accent); color: var(--teal); }
+  .tab:hover:not(.active) { color: var(--text); background: var(--surface2); }
+
+  /* Panels */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* KPI Cards */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .kpi { background: var(--surface); border-radius: 12px; padding: 16px 18px; border: 1px solid var(--border); }
+  .kpi .label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .kpi .value { font-size: 26px; font-weight: 600; line-height: 1; }
+  .kpi .sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+  /* Section title */
+  .section-title { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.09em; margin: 22px 0 10px; }
+
+  /* Chart grid */
+  .chart-grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; margin-bottom: 16px; }
+  @media(max-width:700px) { .chart-grid-2 { grid-template-columns: 1fr; } }
+
+  /* Chart box */
+  .chart-box { background: var(--surface); border-radius: 12px; padding: 18px 18px 14px; border: 1px solid var(--border); margin-bottom: 16px; }
+  .chart-box .chart-title { font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 14px; }
+
+  /* Legend */
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; font-size: 11px; color: var(--text-muted); }
+  .legend span { display: flex; align-items: center; gap: 5px; }
+  .legend .dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* Tables */
+  .scroll-x { overflow-x: auto; border-radius: 10px; }
+  .tbl { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 600px; }
+  .tbl thead { position: sticky; top: 0; z-index: 1; }
+  .tbl th { background: var(--accent); color: #E2E8F0; text-align: right; padding: 9px 12px; font-weight: 500; font-size: 11px; white-space: nowrap; }
+  .tbl th:first-child { text-align: left; border-radius: 8px 0 0 8px; }
+  .tbl th:last-child { border-radius: 0 8px 8px 0; }
+  .tbl td { padding: 7px 12px; text-align: right; border-bottom: 1px solid var(--border); color: var(--text); white-space: nowrap; }
+  .tbl td:first-child { text-align: left; color: var(--text-muted); }
+  .tbl tr:last-child td { border-bottom: none; }
+  .tbl tr:hover td { background: rgba(255,255,255,0.02); }
+  .tbl tr.subtotal td { font-weight: 600; background: rgba(15,52,96,0.5); }
+  .tbl tr.subtotal td:first-child { color: var(--teal); }
+  .tbl tr.highlight td { font-weight: 600; background: rgba(15,52,96,0.8); color: var(--gold); }
+  .tbl tr.highlight td:first-child { color: var(--gold); }
+  .neg { color: var(--red) !important; }
+  .pos { color: var(--green) !important; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--surface); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
 </style>
 </head>
 <body>
 <div class="wrapper">
-<div class="header">
-  <div><h1>TOD · Clínica Estética · Dashboard Financiero Ejecutivo</h1><p>Período activo: Nov-25 → Abr-26</p></div>
-  <div class="badge">Actualizado Abr-26</div>
-</div>
 
-<div class="tabs">
-  <button class="tab active" onclick="showTab('resumen',this)">Resumen</button>
-  <button class="tab" onclick="showTab('pnl',this)">P&amp;L</button>
-  <button class="tab" onclick="showTab('fcff',this)">FCFF</button>
-  <button class="tab" onclick="showTab('gastos',this)">Gastos</button>
-  <button class="tab" onclick="showTab('medicas',this)">Médicas</button>
-  <button class="tab" onclick="showTab('tratamientos',this)">Tratamientos</button>
-</div>
-
-<!-- RESUMEN -->
-<div id="tab-resumen" class="panel active">
-  <div class="kpi-grid">
-    <div class="kpi"><div class="lbl">Ingresos totales</div><div class="val" style="color:var(--teal)">$640M</div><div class="sub">Dic-25 → Abr-26</div></div>
-    <div class="kpi"><div class="lbl">EBITDA acumulado</div><div class="val" style="color:var(--green)">$510M</div><div class="sub">5 meses activos</div></div>
-    <div class="kpi"><div class="lbl">FCFF acumulativo</div><div class="val" style="color:var(--gold)">$473M</div><div class="sub">a Abr-26</div></div>
-    <div class="kpi"><div class="lbl">Ingreso neto acum.</div><div class="val" style="color:var(--teal)">$474M</div><div class="sub">5 meses activos</div></div>
-    <div class="kpi"><div class="lbl">Tratamientos</div><div class="val">2.528</div><div class="sub">Dic-25 → Abr-26</div></div>
-    <div class="kpi"><div class="lbl">Ticket promedio</div><div class="val" style="color:var(--gold)">$249K</div><div class="sub">ARS por tratamiento</div></div>
-  </div>
-  <div class="stitle">Ventas · Margen bruto · EBITDA por mes</div>
-  <div class="legend">
-    <span><span class="dot" style="background:#00B4D8"></span>Ventas</span>
-    <span><span class="dot" style="background:#7C3AED"></span>Margen bruto</span>
-    <span><span class="dot" style="background:#E8B86D"></span>EBITDA</span>
-  </div>
-  <div class="cbox"><div id="ch-ventas"></div></div>
-  <div class="grid2">
-    <div>
-      <div class="stitle">FCFF acumulativo</div>
-      <div class="legend"><span><span class="dot" style="background:#E8B86D"></span>FCFF Acum</span></div>
-      <div class="cbox"><div id="ch-fcffacum"></div></div>
+  <div class="header">
+    <div class="header-left">
+      <h1>TOD · Clínica Estética · Dashboard Financiero Ejecutivo</h1>
+      <p>Período activo: Nov-25 → Abr-26</p>
     </div>
-    <div>
-      <div class="stitle">Ingreso neto por mes</div>
-      <div class="cbox"><div id="ch-neto"></div></div>
+    <div class="header-badge">Actualizado Abr-26</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('resumen',this)">Resumen</button>
+    <button class="tab" onclick="showTab('pnl',this)">P&amp;L</button>
+    <button class="tab" onclick="showTab('fcff',this)">FCFF</button>
+    <button class="tab" onclick="showTab('gastos',this)">Gastos</button>
+    <button class="tab" onclick="showTab('medicas',this)">Médicas</button>
+    <button class="tab" onclick="showTab('tratamientos',this)">Tratamientos</button>
+  </div>
+
+  <!-- RESUMEN -->
+  <div id="tab-resumen" class="panel active">
+    <div class="kpi-grid">
+      <div class="kpi"><div class="label">Ingresos totales</div><div class="value" style="color:var(--teal)">$640M</div><div class="sub">Dic-25 → Abr-26</div></div>
+      <div class="kpi"><div class="label">EBITDA acumulado</div><div class="value" style="color:var(--green)">$510M</div><div class="sub">5 meses activos</div></div>
+      <div class="kpi"><div class="label">FCFF acumulativo</div><div class="value" style="color:var(--gold)">$473M</div><div class="sub">a Abr-26</div></div>
+      <div class="kpi"><div class="label">Ingreso neto acum.</div><div class="value" style="color:var(--teal)">$474M</div><div class="sub">5 meses activos</div></div>
+      <div class="kpi"><div class="label">Tratamientos</div><div class="value">2.528</div><div class="sub">Dic-25 → Abr-26</div></div>
+      <div class="kpi"><div class="label">Ticket promedio</div><div class="value" style="color:var(--gold)">$249K</div><div class="sub">ARS por tratamiento</div></div>
+    </div>
+
+    <div class="section-title">Ventas · Margen bruto · EBITDA por mes</div>
+    <div class="legend">
+      <span><span class="dot" style="background:var(--teal)"></span>Ventas</span>
+      <span><span class="dot" style="background:var(--purple)"></span>Margen bruto</span>
+      <span><span class="dot" style="background:var(--gold)"></span>EBITDA</span>
+    </div>
+    <div class="chart-box"><div style="position:relative;height:280px;"><canvas id="c1" role="img" aria-label="Ventas Margen Bruto y EBITDA por mes"></canvas></div></div>
+
+    <div class="chart-grid-2">
+      <div>
+        <div class="section-title">FCFF acumulativo</div>
+        <div class="chart-box"><div style="position:relative;height:220px;"><canvas id="c2" role="img" aria-label="FCFF acumulativo"></canvas></div></div>
+      </div>
+      <div>
+        <div class="section-title">Ingreso neto por mes</div>
+        <div class="chart-box"><div style="position:relative;height:220px;"><canvas id="c3r" role="img" aria-label="Ingreso neto por mes"></canvas></div></div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- P&L -->
-<div id="tab-pnl" class="panel">
-  <div class="stitle">Estado de resultados</div>
-  <div class="scroll-x"><table class="tbl">
-    <thead><tr><th>Concepto</th><th>Nov-25</th><th>Dic-25</th><th>Ene-26</th><th>Feb-26</th><th>Mar-26</th><th>Abr-26</th></tr></thead>
-    <tbody id="pnl-body"></tbody>
-  </table></div>
-  <div class="grid2">
-    <div><div class="stitle">Ingreso neto</div><div class="cbox"><div id="ch-neto2"></div></div></div>
-    <div><div class="stitle">Ventas vs EBITDA</div><div class="cbox"><div id="ch-vebitda"></div></div></div>
+  <!-- P&L -->
+  <div id="tab-pnl" class="panel">
+    <div class="section-title">Estado de resultados completo</div>
+    <div class="scroll-x" style="margin-bottom:20px;">
+      <table class="tbl">
+        <thead><tr><th>Concepto</th><th>Nov-25</th><th>Dic-25</th><th>Ene-26</th><th>Feb-26</th><th>Mar-26</th><th>Abr-26</th></tr></thead>
+        <tbody id="pnl-body"></tbody>
+      </table>
+    </div>
+    <div class="chart-grid-2">
+      <div>
+        <div class="section-title">Ingreso neto por mes</div>
+        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c3" role="img" aria-label="Ingreso neto"></canvas></div></div>
+      </div>
+      <div>
+        <div class="section-title">Ventas vs EBITDA</div>
+        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c1b" role="img" aria-label="Ventas vs EBITDA"></canvas></div></div>
+      </div>
+    </div>
   </div>
-</div>
 
-<!-- FCFF -->
-<div id="tab-fcff" class="panel">
-  <div class="stitle">FCFF detalle</div>
-  <div class="scroll-x"><table class="tbl">
-    <thead><tr><th>Concepto</th><th>Nov-25</th><th>Dic-25</th><th>Ene-26</th><th>Feb-26</th><th>Mar-26</th><th>Abr-26</th></tr></thead>
-    <tbody id="fcff-body"></tbody>
-  </table></div>
-  <div class="stitle">FCFF mensual vs acumulativo</div>
-  <div class="legend">
-    <span><span class="dot" style="background:#E8B86D"></span>Acumulativo</span>
-    <span><span class="dot" style="background:#00B4D8"></span>Mensual</span>
+  <!-- FCFF -->
+  <div id="tab-fcff" class="panel">
+    <div class="section-title">FCFF detalle</div>
+    <div class="scroll-x" style="margin-bottom:20px;">
+      <table class="tbl">
+        <thead><tr><th>Concepto</th><th>Nov-25</th><th>Dic-25</th><th>Ene-26</th><th>Feb-26</th><th>Mar-26</th><th>Abr-26</th></tr></thead>
+        <tbody id="fcff-body"></tbody>
+      </table>
+    </div>
+    <div class="section-title">FCFF mensual vs acumulativo</div>
+    <div class="legend">
+      <span><span class="dot" style="background:var(--gold)"></span>FCFF Acumulativo</span>
+      <span><span class="dot" style="background:var(--teal)"></span>FCFF Mensual</span>
+    </div>
+    <div class="chart-box"><div style="position:relative;height:280px;"><canvas id="c4" role="img" aria-label="FCFF mensual y acumulativo"></canvas></div></div>
   </div>
-  <div class="cbox"><div id="ch-fcff"></div></div>
-</div>
 
-<!-- GASTOS -->
-<div id="tab-gastos" class="panel">
-  <div class="stitle">Ponderación de gastos (%)</div>
-  <div class="scroll-x"><table class="tbl">
-    <thead><tr><th>Concepto</th><th>Nov-25</th><th>Dic-25</th><th>Ene-26</th><th>Feb-26</th><th>Mar-26</th><th>Abr-26</th></tr></thead>
-    <tbody id="pond-body"></tbody>
-  </table></div>
-  <div class="stitle">Composición del gasto — 100% apilado</div>
-  <div class="legend" id="pond-legend"></div>
-  <div class="cbox"><div id="ch-pond"></div></div>
-  <div class="stitle">Total gasto absoluto (ARS)</div>
-  <div class="cbox"><div id="ch-tgasto"></div></div>
-</div>
-
-<!-- MÉDICAS -->
-<div id="tab-medicas" class="panel">
-  <div class="stitle">Facturación por médica (ARS)</div>
-  <div class="scroll-x"><table class="tbl">
-    <thead><tr><th>Médica</th><th>Dic-25</th><th>Ene-26</th><th>Feb-26</th><th>Mar-26</th><th>Abr-26</th><th>Total</th></tr></thead>
-    <tbody id="doc-body"></tbody>
-  </table></div>
-  <div class="stitle">Facturación apilada</div>
-  <div class="legend" id="doc-legend"></div>
-  <div class="cbox"><div id="ch-docs"></div></div>
-  <div class="stitle">Aportes por médica (ARS)</div>
-  <div class="scroll-x"><table class="tbl">
-    <thead><tr><th>Médica</th><th>Dic-25</th><th>Ene-26</th><th>Feb-26</th><th>Mar-26</th><th>Abr-26</th><th>Total</th></tr></thead>
-    <tbody id="ap-body"></tbody>
-  </table></div>
-</div>
-
-<!-- TRATAMIENTOS -->
-<div id="tab-tratamientos" class="panel">
-  <div class="kpi-grid">
-    <div class="kpi"><div class="lbl">Total tratamientos</div><div class="val">2.528</div></div>
-    <div class="kpi"><div class="lbl">Ticket promedio</div><div class="val" style="color:var(--gold)">$249K</div></div>
-    <div class="kpi"><div class="lbl">Edad promedio</div><div class="val">49 años</div></div>
+  <!-- GASTOS -->
+  <div id="tab-gastos" class="panel">
+    <div class="section-title">Ponderación de gastos (%)</div>
+    <div class="scroll-x" style="margin-bottom:20px;">
+      <table class="tbl">
+        <thead><tr><th>Concepto</th><th>Nov-25</th><th>Dic-25</th><th>Ene-26</th><th>Feb-26</th><th>Mar-26</th><th>Abr-26</th></tr></thead>
+        <tbody id="pond-body"></tbody>
+      </table>
+    </div>
+    <div class="section-title">Composición del gasto — 100% apilado</div>
+    <div class="legend" id="pond-legend"></div>
+    <div class="chart-box"><div style="position:relative;height:300px;"><canvas id="c5" role="img" aria-label="Ponderacion de gastos apilado"></canvas></div></div>
+    <div class="section-title">Total gasto absoluto por mes (ARS)</div>
+    <div class="chart-box"><div style="position:relative;height:220px;"><canvas id="c6" role="img" aria-label="Total gasto por mes"></canvas></div></div>
   </div>
-  <div class="stitle">Mix de tratamientos — total ARS</div>
-  <div class="cbox"><div id="ch-tx"></div></div>
-  <div class="stitle">Ticket promedio por mes</div>
-  <div class="cbox"><div id="ch-ticket"></div></div>
-</div>
+
+  <!-- MÉDICAS -->
+  <div id="tab-medicas" class="panel">
+    <div class="section-title">Facturación por médica (ARS)</div>
+    <div class="scroll-x" style="margin-bottom:20px;">
+      <table class="tbl">
+        <thead><tr><th>Médica</th><th>Dic-25</th><th>Ene-26</th><th>Feb-26</th><th>Mar-26</th><th>Abr-26</th><th>Total</th></tr></thead>
+        <tbody id="doc-body"></tbody>
+      </table>
+    </div>
+    <div class="section-title">Facturación apilada por mes</div>
+    <div class="legend" id="doc-legend"></div>
+    <div class="chart-box"><div style="position:relative;height:280px;"><canvas id="c7" role="img" aria-label="Facturacion por medica apilada"></canvas></div></div>
+    <div class="section-title">Aportes por médica (ARS)</div>
+    <div class="scroll-x">
+      <table class="tbl">
+        <thead><tr><th>Médica</th><th>Dic-25</th><th>Ene-26</th><th>Feb-26</th><th>Mar-26</th><th>Abr-26</th><th>Total</th></tr></thead>
+        <tbody id="ap-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TRATAMIENTOS -->
+  <div id="tab-tratamientos" class="panel">
+    <div class="kpi-grid">
+      <div class="kpi"><div class="label">Total tratamientos</div><div class="value">2.528</div></div>
+      <div class="kpi"><div class="label">Ticket promedio</div><div class="value" style="color:var(--gold)">$249K</div></div>
+      <div class="kpi"><div class="label">Edad promedio</div><div class="value">49 años</div></div>
+    </div>
+    <div class="chart-grid-2">
+      <div>
+        <div class="section-title">Tratamientos por mes</div>
+        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c9b" role="img" aria-label="Tratamientos por mes"></canvas></div></div>
+      </div>
+      <div>
+        <div class="section-title">Ticket promedio por mes (ARS)</div>
+        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c9" role="img" aria-label="Ticket promedio por mes"></canvas></div></div>
+      </div>
+    </div>
+    <div class="section-title">Mix de tratamientos — total ARS (Dic-25 → Abr-26)</div>
+    <div class="chart-box"><div style="position:relative;height:340px;"><canvas id="c8" role="img" aria-label="Mix de tratamientos"></canvas></div></div>
+  </div>
+
 </div>
 
 <script>
 const MONTHS  = ['Nov-25','Dic-25','Ene-26','Feb-26','Mar-26','Abr-26'];
 const MONTHS5 = ['Dic-25','Ene-26','Feb-26','Mar-26','Abr-26'];
 const PAL = ['#00B4D8','#7C3AED','#E8B86D','#27AE60','#E74C3C','#94A3B8','#F97316'];
-const DOC_COL = ['#00B4D8','#27AE60','#E8B86D','#C4B5FD'];
+const DOC_COL = ['#00B4D8','#27AE60','#E8B86D','#E2E8F0'];
 
 const D = {
   ventas:      [0,225811235,89219375,102169125,169383051,53542385],
@@ -225,305 +300,192 @@ const D = {
 };
 
 const fmt = v => {
-  const a = Math.abs(v), s = v < 0 ? '-' : '';
-  if(a >= 1e6) return s+'$'+(a/1e6).toFixed(1)+'M';
-  if(a >= 1e3) return s+'$'+(a/1e3).toFixed(0)+'K';
-  return s+'$'+Math.round(a).toLocaleString();
+  if(Math.abs(v)>=1e6) return (v<0?'-':'')+'$'+Math.abs(v/1e6).toFixed(1)+'M';
+  if(Math.abs(v)>=1e3) return (v<0?'-':'')+'$'+(Math.abs(v)/1e3).toFixed(0)+'K';
+  return (v<0?'-':'')+'$'+Math.abs(Math.round(v)).toLocaleString();
 };
 
-// ── SVG chart engine ──────────────────────────────────────────────────────────
-function svgBarChart(container, labels, series, opts={}) {
-  const W = container.offsetWidth || 600;
-  const H = opts.height || 260;
-  const PL = 60, PR = 16, PT = 16, PB = 40;
-  const CW = W - PL - PR, CH = H - PT - PB;
+const axisY = { ticks:{color:'#94A3B8',font:{size:10},callback:v=>Math.abs(v)>=1e6?(v<0?'-':'')+'$'+Math.abs(v/1e6).toFixed(0)+'M':'$'+Math.round(v).toLocaleString()}, grid:{color:'rgba(148,163,184,0.08)'} };
+const axisX = { ticks:{color:'#94A3B8',font:{size:10},autoSkip:false,maxRotation:0}, grid:{color:'rgba(148,163,184,0.08)'} };
+const noLegend = { plugins:{ legend:{display:false} } };
 
-  const allVals = series.flatMap(s => s.data);
-  const minV = Math.min(0, ...allVals);
-  const maxV = Math.max(0, ...allVals);
-  const range = maxV - minV || 1;
-
-  const toY = v => PT + CH - (v - minV) / range * CH;
-  const zero = toY(0);
-
-  const n = labels.length;
-  const groups = series.length;
-  const gw = CW / n;
-  const bw = Math.min(gw * 0.8 / groups, 40);
-  const gap = (gw - bw * groups) / 2;
-
-  let svg = `<svg class="chart" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
-
-  // Grid lines & y-axis labels
-  const ticks = 5;
-  for(let i = 0; i <= ticks; i++) {
-    const v = minV + (range * i / ticks);
-    const y = toY(v);
-    svg += `<line x1="${PL}" y1="${y}" x2="${W-PR}" y2="${y}" stroke="rgba(148,163,184,0.12)" stroke-width="1"/>`;
-    svg += `<text x="${PL-6}" y="${y+4}" text-anchor="end" font-size="9" fill="#94A3B8">${fmt(v)}</text>`;
-  }
-
-  // Zero line
-  if(minV < 0) svg += `<line x1="${PL}" y1="${zero}" x2="${W-PR}" y2="${zero}" stroke="rgba(148,163,184,0.35)" stroke-width="1"/>`;
-
-  // Bars
-  series.forEach((s, si) => {
-    s.data.forEach((v, i) => {
-      const x = PL + i * gw + gap + si * bw;
-      const y1 = toY(Math.max(v, 0));
-      const y0 = toY(Math.min(v, 0));
-      const bh = Math.abs(y0 - y1) || 1;
-      const color = s.color || PAL[si];
-      svg += `<rect x="${x}" y="${y1}" width="${bw}" height="${bh}" fill="${color}" rx="2"><title>${s.label}: ${fmt(v)}</title></rect>`;
-    });
+function bar(id, labels, datasets, extra={}) {
+  return new Chart(document.getElementById(id),{
+    type:'bar', data:{labels,datasets},
+    options:{ responsive:true, maintainAspectRatio:false, ...noLegend,
+      plugins:{...noLegend.plugins, tooltip:{mode:'index',intersect:false}},
+      scales:{x:axisX, y:axisY}, ...extra }
   });
-
-  // X-axis labels
-  labels.forEach((l, i) => {
-    const x = PL + i * gw + gw / 2;
-    svg += `<text x="${x}" y="${H - PB + 14}" text-anchor="middle" font-size="9" fill="#94A3B8">${l}</text>`;
+}
+function line(id, labels, datasets, extra={}) {
+  return new Chart(document.getElementById(id),{
+    type:'line', data:{labels,datasets},
+    options:{ responsive:true, maintainAspectRatio:false, ...noLegend,
+      plugins:{...noLegend.plugins, tooltip:{mode:'index',intersect:false}},
+      scales:{x:axisX, y:axisY}, ...extra }
   });
-
-  svg += '</svg>';
-  container.innerHTML = svg;
 }
 
-function svgLineChart(container, labels, series, opts={}) {
-  const W = container.offsetWidth || 600;
-  const H = opts.height || 220;
-  const PL = 64, PR = 16, PT = 16, PB = 36;
-  const CW = W - PL - PR, CH = H - PT - PB;
-
-  const allVals = series.flatMap(s => s.data);
-  const minV = Math.min(...allVals);
-  const maxV = Math.max(...allVals);
-  const range = maxV - minV || 1;
-  const pad = range * 0.1;
-
-  const toX = i => PL + i / (labels.length - 1) * CW;
-  const toY = v => PT + CH - (v - (minV - pad)) / (range + 2*pad) * CH;
-
-  let svg = `<svg class="chart" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
-
-  // Grid
-  for(let i = 0; i <= 4; i++) {
-    const v = minV + range * i / 4;
-    const y = toY(v);
-    svg += `<line x1="${PL}" y1="${y}" x2="${W-PR}" y2="${y}" stroke="rgba(148,163,184,0.12)" stroke-width="1"/>`;
-    svg += `<text x="${PL-6}" y="${y+4}" text-anchor="end" font-size="9" fill="#94A3B8">${fmt(v)}</text>`;
-  }
-
-  // Zero line
-  if(minV < 0 && maxV > 0) {
-    const zy = toY(0);
-    svg += `<line x1="${PL}" y1="${zy}" x2="${W-PR}" y2="${zy}" stroke="rgba(148,163,184,0.35)" stroke-width="1"/>`;
-  }
-
-  // Lines + fill
-  series.forEach(s => {
-    const pts = s.data.map((v,i) => `${toX(i)},${toY(v)}`).join(' ');
-    if(s.fill) {
-      const zy = toY(Math.max(minV - pad, 0));
-      const fp = `${PL},${zy} ` + s.data.map((v,i)=>`${toX(i)},${toY(v)}`).join(' ') + ` ${toX(s.data.length-1)},${zy}`;
-      svg += `<polygon points="${fp}" fill="${s.color}" opacity="0.12"/>`;
-    }
-    svg += `<polyline points="${pts}" fill="none" stroke="${s.color}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" ${s.dash?'stroke-dasharray="6,3"':''}/>`;
-    s.data.forEach((v,i) => {
-      svg += `<circle cx="${toX(i)}" cy="${toY(v)}" r="4" fill="${s.color}"><title>${s.label}: ${fmt(v)}</title></circle>`;
-    });
-  });
-
-  // X labels
-  labels.forEach((l,i) => {
-    svg += `<text x="${toX(i)}" y="${H-PB+14}" text-anchor="middle" font-size="9" fill="#94A3B8">${l}</text>`;
-  });
-
-  svg += '</svg>';
-  container.innerHTML = svg;
-}
-
-function svgStackedBar(container, labels, series, opts={}) {
-  const W = container.offsetWidth || 600;
-  const H = opts.height || 280;
-  const PL = 42, PR = 16, PT = 16, PB = 40;
-  const CW = W - PL - PR, CH = H - PT - PB;
-  const isPct = opts.pct;
-
-  const n = labels.length;
-  const bw = Math.min(CW / n * 0.65, 60);
-
-  let svg = `<svg class="chart" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
-
-  // Grid
-  const ticks = [0,25,50,75,100];
-  ticks.forEach(t => {
-    const y = PT + CH - t/100*CH;
-    svg += `<line x1="${PL}" y1="${y}" x2="${W-PR}" y2="${y}" stroke="rgba(148,163,184,0.12)" stroke-width="1"/>`;
-    svg += `<text x="${PL-4}" y="${y+4}" text-anchor="end" font-size="9" fill="#94A3B8">${t}%</text>`;
-  });
-
-  labels.forEach((lbl, i) => {
-    let cumPct = 0;
-    const x = PL + i * (CW/n) + (CW/n - bw)/2;
-    series.forEach((s, si) => {
-      const v = s.data[i];
-      const h = v * CH;
-      const y = PT + CH - (cumPct + v) * CH;
-      svg += `<rect x="${x}" y="${y}" width="${bw}" height="${h}" fill="${s.color}" rx="1"><title>${s.label}: ${(v*100).toFixed(1)}%</title></rect>`;
-      cumPct += v;
-    });
-    svg += `<text x="${x+bw/2}" y="${H-PB+14}" text-anchor="middle" font-size="9" fill="#94A3B8">${lbl}</text>`;
-  });
-
-  svg += '</svg>';
-  container.innerHTML = svg;
-}
-
-function svgHBar(container, labels, values, color) {
-  const W = container.offsetWidth || 600;
-  const rowH = 28, PT = 8, PL = 100, PR = 70;
-  const H = PT*2 + rowH * labels.length;
-  const maxV = Math.max(...values);
-
-  let svg = `<svg class="chart" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
-  labels.forEach((lbl, i) => {
-    const y = PT + i * rowH;
-    const bw = values[i] / maxV * (W - PL - PR);
-    svg += `<text x="${PL-6}" y="${y+rowH/2+4}" text-anchor="end" font-size="10" fill="#94A3B8">${lbl}</text>`;
-    svg += `<rect x="${PL}" y="${y+4}" width="${bw}" height="${rowH-8}" fill="${color}" rx="3"><title>${lbl}: ${fmt(values[i])}</title></rect>`;
-    svg += `<text x="${PL+bw+6}" y="${y+rowH/2+4}" font-size="10" fill="#94A3B8">${fmt(values[i])}</text>`;
-  });
-  svg += '</svg>';
-  container.innerHTML = svg;
-}
-
-// ── Tabs ──────────────────────────────────────────────────────────────────────
 function showTab(id, el) {
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('tab-'+id).classList.add('active');
-  renderCharts();
 }
 
-// ── Tables ────────────────────────────────────────────────────────────────────
-function buildTable(tbodyId, rows) {
-  const tbody = document.getElementById(tbodyId);
-  if(!tbody || tbody.children.length) return;
-  rows.forEach(([lbl, vals, cls]) => {
+document.addEventListener('DOMContentLoaded', () => {
+
+  // ── RESUMEN ────────────────────────────────────────────────────────────────
+  bar('c1', MONTHS, [
+    {label:'Ventas',       data:D.ventas,  backgroundColor:'#00B4D8'},
+    {label:'Margen bruto', data:D.margen,  backgroundColor:'#7C3AED'},
+    {label:'EBITDA',       data:D.ebitda,  backgroundColor:'#E8B86D'},
+  ]);
+  line('c2', MONTHS, [{
+    label:'FCFF Acum', data:D.fcffAcum,
+    borderColor:'#E8B86D', backgroundColor:'rgba(232,184,109,0.12)',
+    borderWidth:2.5, pointRadius:4, fill:true, tension:0.35
+  }]);
+  bar('c3r', MONTHS, [{
+    label:'Ingreso Neto', data:D.ingresoNeto,
+    backgroundColor:D.ingresoNeto.map(v=>v<0?'#E74C3C':'#00B4D8'), borderRadius:4
+  }]);
+
+  // ── P&L TABLE ──────────────────────────────────────────────────────────────
+  const pnlRows = [
+    ['Ventas',               D.ventas,                   false],
+    ['Egreso médicas',       D.egMed.map(v=>-v),         false],
+    ['Mercadería',           D.mercaderia.map(v=>-v),    false],
+    ['MARGEN BRUTO',         D.margen,                   'subtotal'],
+    ['Gastos Administrativos', D.gAdmin.map(v=>-v),      false],
+    ['Gastos Marketing',     D.gMkt.map(v=>-v),          false],
+    ['Gastos Comercialización',D.gCom.map(v=>-v),        false],
+    ['EBITDA',               D.ebitda,                   'subtotal'],
+    ['Impuestos',            D.impuestos.map(v=>-v),     false],
+    ['INGRESO NETO',         D.ingresoNeto,              'highlight'],
+  ];
+  const pnlBody = document.getElementById('pnl-body');
+  pnlRows.forEach(([lbl,vals,cls])=>{
     const tr = document.createElement('tr');
     if(cls) tr.className = cls;
-    tr.innerHTML = `<td>${lbl}</td>`+vals.map(v=>`<td class="${typeof v==='number'&&v<0?'neg':''}">${typeof v==='number'?fmt(v):v}</td>`).join('');
-    tbody.appendChild(tr);
+    tr.innerHTML = `<td>${lbl}</td>`+vals.map(v=>`<td class="${v<0?'neg':''}">${fmt(v)}</td>`).join('');
+    pnlBody.appendChild(tr);
   });
-}
-
-function buildTables() {
-  buildTable('pnl-body', [
-    ['Ventas', D.ventas, ''],
-    ['Egreso médicas', D.egMed.map(v=>-v), ''],
-    ['Mercadería', D.mercaderia.map(v=>-v), ''],
-    ['MARGEN BRUTO', D.margen, 'sub'],
-    ['Gastos Administrativos', D.gAdmin.map(v=>-v), ''],
-    ['Gastos Marketing', D.gMkt.map(v=>-v), ''],
-    ['Gastos Comercialización', D.gCom.map(v=>-v), ''],
-    ['EBITDA', D.ebitda, 'sub'],
-    ['Impuestos', D.impuestos.map(v=>-v), ''],
-    ['INGRESO NETO', D.ingresoNeto, 'hi'],
-  ]);
-  buildTable('fcff-body', [
-    ['Ingreso Operativo', D.fcff, ''],
-    ['CAPEX', [0,0,0,0,0,0], ''],
-    ['Capital de Trabajo', [0,0,0,0,0,0], ''],
-    ['FCFF', D.fcff, 'sub'],
-    ['FCFF Acumulativo', D.fcffAcum, 'hi'],
+  bar('c3', MONTHS, [{label:'Ingreso Neto', data:D.ingresoNeto, backgroundColor:D.ingresoNeto.map(v=>v<0?'#E74C3C':'#00B4D8'), borderRadius:4}]);
+  bar('c1b', MONTHS, [
+    {label:'Ventas', data:D.ventas, backgroundColor:'#00B4D8'},
+    {label:'EBITDA', data:D.ebitda, backgroundColor:'#E8B86D'},
   ]);
 
-  // Pond table
-  const pb = document.getElementById('pond-body');
-  if(pb && !pb.children.length) {
-    const pl = document.getElementById('pond-legend');
-    Object.entries(D.pond).forEach(([lbl,vals],i) => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${lbl}</td>`+vals.map(v=>`<td>${(v*100).toFixed(2)}%</td>`).join('');
-      pb.appendChild(tr);
-      pl.innerHTML += `<span><span class="dot" style="background:${PAL[i]}"></span>${lbl}</span>`;
-    });
-    const tr = document.createElement('tr'); tr.className='sub';
-    tr.innerHTML = `<td>Total Gasto</td>`+D.totalGasto.map(v=>`<td>${fmt(v)}</td>`).join('');
-    pb.appendChild(tr);
-  }
+  // ── FCFF TABLE ─────────────────────────────────────────────────────────────
+  const fcffRows = [
+    ['Ingreso Operativo', D.fcff,     false],
+    ['CAPEX',             [0,0,0,0,0,0], false],
+    ['Capital de Trabajo',[0,0,0,0,0,0], false],
+    ['FCFF',              D.fcff,     'subtotal'],
+    ['FCFF Acumulativo',  D.fcffAcum, 'highlight'],
+  ];
+  const fcffBody = document.getElementById('fcff-body');
+  fcffRows.forEach(([lbl,vals,cls])=>{
+    const tr = document.createElement('tr');
+    if(cls) tr.className = cls;
+    tr.innerHTML = `<td>${lbl}</td>`+vals.map(v=>`<td class="${v<0?'neg':''}">${fmt(v)}</td>`).join('');
+    fcffBody.appendChild(tr);
+  });
+  line('c4', MONTHS, [
+    {label:'FCFF Acum', data:D.fcffAcum, borderColor:'#E8B86D', borderWidth:2.5, pointRadius:4, tension:0.3},
+    {label:'FCFF',      data:D.fcff,     borderColor:'#00B4D8', borderWidth:2,   pointRadius:3, tension:0.3, borderDash:[5,4]},
+  ]);
 
-  // Doctors table
-  const db = document.getElementById('doc-body');
-  const dl = document.getElementById('doc-legend');
-  if(db && !db.children.length) {
-    Object.entries(D.doctors).forEach(([doc,vals],i) => {
-      const tr = document.createElement('tr');
-      const tot = vals.reduce((a,b)=>a+b,0);
-      tr.innerHTML = `<td>${doc}</td>`+vals.map(v=>`<td>${fmt(v)}</td>`).join('')+`<td><strong>${fmt(tot)}</strong></td>`;
-      db.appendChild(tr);
-      dl.innerHTML += `<span><span class="dot" style="background:${DOC_COL[i]}"></span>${doc}</span>`;
-    });
-    const totals = MONTHS5.map((_,i)=>Object.values(D.doctors).reduce((a,v)=>a+v[i],0));
-    const tr = document.createElement('tr'); tr.className='sub';
-    tr.innerHTML = `<td>Total</td>`+totals.map(v=>`<td>${fmt(v)}</td>`).join('')+`<td><strong>${fmt(totals.reduce((a,b)=>a+b,0))}</strong></td>`;
-    db.appendChild(tr);
-  }
+  // ── POND TABLE + CHARTS ────────────────────────────────────────────────────
+  const pondBody = document.getElementById('pond-body');
+  const pondLeg  = document.getElementById('pond-legend');
+  Object.entries(D.pond).forEach(([lbl,vals],i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${lbl}</td>`+vals.map(v=>`<td>${(v*100).toFixed(2)}%</td>`).join('');
+    pondBody.appendChild(tr);
+    pondLeg.innerHTML += `<span><span class="dot" style="background:${PAL[i]}"></span>${lbl}</span>`;
+  });
+  const trG = document.createElement('tr');
+  trG.className='subtotal';
+  trG.innerHTML = `<td>Total Gasto</td>`+D.totalGasto.map(v=>`<td>${fmt(v)}</td>`).join('');
+  pondBody.appendChild(trG);
 
-  const ab = document.getElementById('ap-body');
-  if(ab && !ab.children.length) {
-    Object.entries(D.aportes).forEach(([doc,vals]) => {
-      const tr = document.createElement('tr');
-      const tot = vals.reduce((a,b)=>a+b,0);
-      tr.innerHTML = `<td>${doc}</td>`+vals.map(v=>`<td>${fmt(v)}</td>`).join('')+`<td><strong>${fmt(tot)}</strong></td>`;
-      ab.appendChild(tr);
-    });
-  }
-}
+  new Chart(document.getElementById('c5'),{
+    type:'bar',
+    data:{ labels:MONTHS, datasets:Object.entries(D.pond).map(([lbl,vals],i)=>({
+      label:lbl, data:vals.map(v=>+(v*100).toFixed(2)), backgroundColor:PAL[i], stack:'a'
+    }))},
+    options:{ responsive:true, maintainAspectRatio:false, ...noLegend,
+      scales:{ x:{stacked:true,...axisX}, y:{stacked:true,max:100,ticks:{color:'#94A3B8',font:{size:10},callback:v=>v+'%'},grid:{color:'rgba(148,163,184,0.08)'}} }
+    }
+  });
+  line('c6', MONTHS, [{
+    label:'Total Gasto', data:D.totalGasto,
+    borderColor:'#E74C3C', backgroundColor:'rgba(231,76,60,0.1)',
+    borderWidth:2.5, pointRadius:4, fill:true, tension:0.3
+  }]);
 
-// ── Charts ────────────────────────────────────────────────────────────────────
-const rendered = {};
-function renderCharts() {
-  const r = (id, fn) => { if(!rendered[id]) { const el=document.getElementById(id); if(el&&el.offsetWidth>0){fn(el);rendered[id]=true;} } };
+  // ── DOCTORS ────────────────────────────────────────────────────────────────
+  const docBody = document.getElementById('doc-body');
+  const docLeg  = document.getElementById('doc-legend');
+  Object.entries(D.doctors).forEach(([doc,vals],i)=>{
+    const total = vals.reduce((a,b)=>a+b,0);
+    const tr = document.createElement('tr');
+    tr.innerHTML=`<td>${doc}</td>`+vals.map(v=>`<td>${fmt(v)}</td>`).join('')+`<td><strong>${fmt(total)}</strong></td>`;
+    docBody.appendChild(tr);
+    docLeg.innerHTML+=`<span><span class="dot" style="background:${DOC_COL[i]}"></span>${doc}</span>`;
+  });
+  const docTotals = MONTHS5.map((_,i)=>Object.values(D.doctors).reduce((a,v)=>a+v[i],0));
+  const trDT = document.createElement('tr'); trDT.className='subtotal';
+  trDT.innerHTML=`<td>Total</td>`+docTotals.map(v=>`<td>${fmt(v)}</td>`).join('')+`<td><strong>${fmt(docTotals.reduce((a,b)=>a+b,0))}</strong></td>`;
+  docBody.appendChild(trDT);
 
-  r('ch-ventas', el => svgBarChart(el, MONTHS, [
-    {label:'Ventas',       data:D.ventas,  color:'#00B4D8'},
-    {label:'Margen Bruto', data:D.margen,  color:'#7C3AED'},
-    {label:'EBITDA',       data:D.ebitda,  color:'#E8B86D'},
-  ]));
-  r('ch-fcffacum', el => svgLineChart(el, MONTHS, [{label:'FCFF Acum', data:D.fcffAcum, color:'#E8B86D', fill:true}]));
-  r('ch-neto',  el => svgBarChart(el, MONTHS, [{label:'Ingreso Neto', data:D.ingresoNeto, color:'#00B4D8'}], {height:220}));
-  r('ch-neto2', el => svgBarChart(el, MONTHS, [{label:'Ingreso Neto', data:D.ingresoNeto, color:'#00B4D8'}], {height:220}));
-  r('ch-vebitda', el => svgBarChart(el, MONTHS, [
-    {label:'Ventas', data:D.ventas,  color:'#00B4D8'},
-    {label:'EBITDA', data:D.ebitda,  color:'#E8B86D'},
-  ], {height:220}));
-  r('ch-fcff', el => svgLineChart(el, MONTHS, [
-    {label:'FCFF Acum', data:D.fcffAcum, color:'#E8B86D', fill:true},
-    {label:'FCFF',      data:D.fcff,     color:'#00B4D8', dash:true},
-  ], {height:260}));
-  r('ch-pond', el => svgStackedBar(el, MONTHS,
-    Object.entries(D.pond).map(([lbl,vals],i)=>({label:lbl, data:vals, color:PAL[i]})),
-    {height:280, pct:true}
-  ));
-  r('ch-tgasto', el => svgLineChart(el, MONTHS, [{label:'Total Gasto', data:D.totalGasto, color:'#E74C3C', fill:true}]));
-  r('ch-docs', el => svgStackedBar(el, MONTHS5,
-    Object.entries(D.doctors).map(([doc,vals],i)=>({
-      label:doc,
-      data:vals.map((v,j)=>v/Object.values(D.doctors).reduce((a,d)=>a+d[j],0)),
-      color:DOC_COL[i]
-    })),
-    {height:260, pct:true}
-  ));
+  new Chart(document.getElementById('c7'),{
+    type:'bar',
+    data:{ labels:MONTHS5, datasets:Object.entries(D.doctors).map(([doc,vals],i)=>({
+      label:doc, data:vals, backgroundColor:DOC_COL[i], stack:'a'
+    }))},
+    options:{ responsive:true, maintainAspectRatio:false, ...noLegend,
+      plugins:{...noLegend.plugins,tooltip:{mode:'index',intersect:false}},
+      scales:{ x:{stacked:true,...axisX}, y:{stacked:true,...axisY} }
+    }
+  });
+
+  const apBody = document.getElementById('ap-body');
+  Object.entries(D.aportes).forEach(([doc,vals],i)=>{
+    const total = vals.reduce((a,b)=>a+b,0);
+    const tr = document.createElement('tr');
+    tr.innerHTML=`<td>${doc}</td>`+vals.map(v=>`<td>${fmt(v)}</td>`).join('')+`<td><strong>${fmt(total)}</strong></td>`;
+    apBody.appendChild(tr);
+  });
+
+  // ── TRATAMIENTOS ───────────────────────────────────────────────────────────
+  bar('c9b', MONTHS5, [{label:'Tratamientos', data:D.trats, backgroundColor:'#7C3AED', borderRadius:4}],{
+    scales:{ x:axisX, y:{ticks:{color:'#94A3B8',font:{size:10}},grid:{color:'rgba(148,163,184,0.08)'}} }
+  });
+  line('c9', MONTHS5, [{
+    label:'Ticket Promedio', data:D.ticket,
+    borderColor:'#E8B86D', borderWidth:2.5, pointRadius:5,
+    pointBackgroundColor:'#E8B86D', tension:0.3
+  }]);
+
   const txSorted = Object.entries(D.treatments).map(([k,v])=>({name:k,total:v.reduce((a,b)=>a+b,0)})).sort((a,b)=>b.total-a.total);
-  r('ch-tx', el => svgHBar(el, txSorted.map(t=>t.name), txSorted.map(t=>t.total), '#7C3AED'));
-  r('ch-ticket', el => svgLineChart(el, MONTHS5, [{label:'Ticket', data:D.ticket, color:'#E8B86D', fill:true}]));
-}
+  new Chart(document.getElementById('c8'),{
+    type:'bar',
+    data:{ labels:txSorted.map(t=>t.name), datasets:[{
+      label:'Total ARS', data:txSorted.map(t=>t.total), backgroundColor:'#7C3AED', borderRadius:4
+    }]},
+    options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, ...noLegend,
+      plugins:{...noLegend.plugins,tooltip:{callbacks:{label:ctx=>' '+fmt(ctx.raw)}}},
+      scales:{
+        x:{ticks:{color:'#94A3B8',font:{size:10},callback:v=>Math.abs(v)>=1e6?'$'+Math.abs(v/1e6).toFixed(0)+'M':'$'+v},grid:{color:'rgba(148,163,184,0.08)'}},
+        y:{ticks:{color:'#94A3B8',font:{size:10}},grid:{display:false}}
+      }
+    }
+  });
 
-buildTables();
-requestAnimationFrame(() => { requestAnimationFrame(renderCharts); });
-window.addEventListener('resize', () => { Object.keys(rendered).forEach(k=>delete rendered[k]); renderCharts(); });
+});
 </script>
 </body>
 </html>
