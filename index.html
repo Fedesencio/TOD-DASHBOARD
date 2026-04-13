@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0061)file:///C:/Users/federico.sencio/Downloads/TOD_Dashboard.html -->
+<!-- saved from url=(0053)file:///C:/Users/federico.sencio/Downloads/index.html -->
 <html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TOD · Dashboard Financiero Ejecutivo</title>
-<script src="./TOD · Dashboard Financiero Ejecutivo_files/chart.umd.js.download"></script>
+<script src="./index_files/chart.umd.js.download"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -103,16 +103,16 @@
   </div>
 
   <div class="tabs">
-    <button class="tab" onclick="showTab(&#39;resumen&#39;,this)">Resumen</button>
+    <button class="tab active" onclick="showTab(&#39;resumen&#39;,this)">Resumen</button>
     <button class="tab" onclick="showTab(&#39;pnl&#39;,this)">P&amp;L</button>
     <button class="tab" onclick="showTab(&#39;fcff&#39;,this)">FCFF</button>
     <button class="tab" onclick="showTab(&#39;gastos&#39;,this)">Gastos</button>
     <button class="tab" onclick="showTab(&#39;medicas&#39;,this)">Médicas</button>
-    <button class="tab active" onclick="showTab(&#39;tratamientos&#39;,this)">Tratamientos</button>
+    <button class="tab" onclick="showTab(&#39;tratamientos&#39;,this)">Tratamientos</button>
   </div>
 
   <!-- RESUMEN -->
-  <div id="tab-resumen" class="panel">
+  <div id="tab-resumen" class="panel active">
     <div class="kpi-grid">
       <div class="kpi"><div class="label">Ingresos totales</div><div class="value" style="color:var(--teal)">$640M</div><div class="sub">Dic-25 → Abr-26</div></div>
       <div class="kpi"><div class="label">EBITDA acumulado</div><div class="value" style="color:var(--green)">$510M</div><div class="sub">5 meses activos</div></div>
@@ -154,11 +154,11 @@
     <div class="chart-grid-2">
       <div>
         <div class="section-title">Ingreso neto por mes</div>
-        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c3" role="img" aria-label="Ingreso neto" height="300" style="display: block; box-sizing: border-box; height: 240px; width: 574px;" width="718"></canvas></div></div>
+        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c3" role="img" aria-label="Ingreso neto" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
       </div>
       <div>
         <div class="section-title">Ventas vs EBITDA</div>
-        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c1b" role="img" aria-label="Ventas vs EBITDA" height="300" style="display: block; box-sizing: border-box; height: 240px; width: 574px;" width="718"></canvas></div></div>
+        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c1b" role="img" aria-label="Ventas vs EBITDA" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
       </div>
     </div>
   </div>
@@ -177,7 +177,7 @@
       <span><span class="dot" style="background:var(--gold)"></span>FCFF Acumulativo</span>
       <span><span class="dot" style="background:var(--teal)"></span>FCFF Mensual</span>
     </div>
-    <div class="chart-box"><div style="position:relative;height:280px;"><canvas id="c4" role="img" aria-label="FCFF mensual y acumulativo" height="350" style="display: block; box-sizing: border-box; height: 280px; width: 1202px;" width="1503"></canvas></div></div>
+    <div class="chart-box"><div style="position:relative;height:280px;"><canvas id="c4" role="img" aria-label="FCFF mensual y acumulativo" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
   </div>
 
   <!-- GASTOS -->
@@ -191,9 +191,9 @@
     </div>
     <div class="section-title">Composición del gasto — 100% apilado</div>
     <div class="legend" id="pond-legend"><span><span class="dot" style="background:#00B4D8"></span>Salarios</span><span><span class="dot" style="background:#7C3AED"></span>Gastos Admin</span><span><span class="dot" style="background:#E8B86D"></span>Gastos Marketing</span><span><span class="dot" style="background:#27AE60"></span>Gastos Comerc.</span><span><span class="dot" style="background:#E74C3C"></span>Impuestos</span><span><span class="dot" style="background:#94A3B8"></span>Servicios</span><span><span class="dot" style="background:#F97316"></span>Mercadería</span></div>
-    <div class="chart-box"><div style="position:relative;height:300px;"><canvas id="c5" role="img" aria-label="Ponderacion de gastos apilado" height="375" style="display: block; box-sizing: border-box; height: 300px; width: 1202px;" width="1503"></canvas></div></div>
+    <div class="chart-box"><div style="position:relative;height:300px;"><canvas id="c5" role="img" aria-label="Ponderacion de gastos apilado" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
     <div class="section-title">Total gasto absoluto por mes (ARS)</div>
-    <div class="chart-box"><div style="position:relative;height:220px;"><canvas id="c6" role="img" aria-label="Total gasto por mes" height="275" style="display: block; box-sizing: border-box; height: 220px; width: 1202px;" width="1503"></canvas></div></div>
+    <div class="chart-box"><div style="position:relative;height:220px;"><canvas id="c6" role="img" aria-label="Total gasto por mes" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
   </div>
 
   <!-- MÉDICAS -->
@@ -207,7 +207,7 @@
     </div>
     <div class="section-title">Facturación apilada por mes</div>
     <div class="legend" id="doc-legend"><span><span class="dot" style="background:#00B4D8"></span>Olivia</span><span><span class="dot" style="background:#27AE60"></span>Lucia</span><span><span class="dot" style="background:#E8B86D"></span>Florencia</span><span><span class="dot" style="background:#E2E8F0"></span>TOD</span></div>
-    <div class="chart-box"><div style="position:relative;height:280px;"><canvas id="c7" role="img" aria-label="Facturacion por medica apilada" height="350" style="display: block; box-sizing: border-box; height: 280px; width: 1202px;" width="1503"></canvas></div></div>
+    <div class="chart-box"><div style="position:relative;height:280px;"><canvas id="c7" role="img" aria-label="Facturacion por medica apilada" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
     <div class="section-title">Aportes por médica (ARS)</div>
     <div class="scroll-x">
       <table class="tbl">
@@ -218,7 +218,7 @@
   </div>
 
   <!-- TRATAMIENTOS -->
-  <div id="tab-tratamientos" class="panel active">
+  <div id="tab-tratamientos" class="panel">
     <div class="kpi-grid">
       <div class="kpi"><div class="label">Total tratamientos</div><div class="value">2.528</div></div>
       <div class="kpi"><div class="label">Ticket promedio</div><div class="value" style="color:var(--gold)">$249K</div></div>
@@ -227,15 +227,15 @@
     <div class="chart-grid-2">
       <div>
         <div class="section-title">Tratamientos por mes</div>
-        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c9b" role="img" aria-label="Tratamientos por mes" height="300" style="display: block; box-sizing: border-box; height: 240px; width: 574px;" width="718"></canvas></div></div>
+        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c9b" role="img" aria-label="Tratamientos por mes" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
       </div>
       <div>
         <div class="section-title">Ticket promedio por mes (ARS)</div>
-        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c9" role="img" aria-label="Ticket promedio por mes" height="300" style="display: block; box-sizing: border-box; height: 240px; width: 574px;" width="718"></canvas></div></div>
+        <div class="chart-box"><div style="position:relative;height:240px;"><canvas id="c9" role="img" aria-label="Ticket promedio por mes" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
       </div>
     </div>
     <div class="section-title">Mix de tratamientos — total ARS (Dic-25 → Abr-26)</div>
-    <div class="chart-box"><div style="position:relative;height:340px;"><canvas id="c8" role="img" aria-label="Mix de tratamientos" height="425" style="display: block; box-sizing: border-box; height: 340px; width: 1202px;" width="1503"></canvas></div></div>
+    <div class="chart-box"><div style="position:relative;height:340px;"><canvas id="c8" role="img" aria-label="Mix de tratamientos" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas></div></div>
   </div>
 
 </div>
